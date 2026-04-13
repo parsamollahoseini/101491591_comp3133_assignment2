@@ -1,178 +1,114 @@
-# 101505276_comp3133_assignment
+# Employee Management System
 
-COMP 3133 Assignment II workspace using this structure:
+COMP 3133 Full Stack Development - Assignment 2
 
-```text
-101505276_comp3133_assignment/
-├── docker-compose.yml
-├── frontend/
-└── backend/
-```
+## Overview
 
-The frontend is an Angular employee management app that connects to the Assignment I GraphQL backend.
+A full-stack web application for managing employee records with user authentication and CRUD operations. Built with Angular frontend and GraphQL backend.
 
-## Technologies Used
+## Tech Stack
 
+**Frontend:**
 - Angular 21
 - TypeScript
-- GraphQL
-- Node.js
-- Express
-- MongoDB
-- Mongoose
-- Docker
-- Docker Compose
-- HTML
-- CSS
+- Reactive Forms
+- Router
 
-## Project Structure
+**Backend:**
+- Node.js & Express
+- GraphQL (Apollo Server)
+- MongoDB Atlas
+- JWT Authentication
 
-- `frontend/`: Angular frontend for login, signup, employee CRUD, search, routing, guards, and session handling
-- `backend/`: Assignment I GraphQL backend used by the frontend
-- `docker-compose.yml`: starts the frontend and backend together
+## Getting Started
 
-## Database Connection
+### Prerequisites
 
-The Dockerized backend is configured to use the same MongoDB connection details as Assignment I through `backend/.env`.
+- Node.js (v18+)
+- MongoDB Atlas account
+- npm
 
-- Database name: `comp3133_101505276_Assignment1`
-- Backend GraphQL URL: `http://localhost:4000/graphql`
-- Frontend URL: `http://localhost:4200`
+### Installation
 
-This means the backend is intended to connect to the same Assignment I database, not a separate temporary Docker Mongo database.
-
-## Environment Setup
-
-`backend/.env` is not committed to GitHub. Anyone cloning the repo must create their own `backend/.env` before running the app.
-
-Use the provided example file:
-
-```powershell
-Copy-Item backend\.env.example backend\.env
+1. Clone the repository
+```bash
+git clone https://github.com/parsamollahoseini/101491591_comp3133_assignment2.git
+cd 101491591_comp3133_assignment2
 ```
 
-Then update `backend/.env` with your own values.
-
-Required variables:
-
-- `PORT=4000`
-- `MONGO_URI=your_mongodb_connection_string`
-- `MONGO_DB_NAME=comp3133_101505276_Assignment1`
-- `JWT_SECRET=your_jwt_secret`
-- `CLOUD_NAME=your_cloudinary_cloud_name`
-- `CLOUD_KEY=your_cloudinary_api_key`
-- `CLOUD_SECRET=your_cloudinary_api_secret`
-
-If you want to keep using the same Assignment I database, copy the MongoDB and backend environment values from your Assignment I project into `backend/.env`.
-
-## Run With Docker
-
-From the repo root:
-
-```powershell
-Copy-Item backend\.env.example backend\.env
-```
-
-Update `backend/.env`, then run:
-
-```powershell
-docker compose up --build -d
-```
-
-Then open:
-
-- Frontend: `http://localhost:4200/login`
-- Backend GraphQL: `http://localhost:4000/graphql`
-
-To stop the app:
-
-```powershell
-docker compose down
-```
-
-## Run Locally Without Docker
-
-Backend:
-
-```powershell
-Copy-Item .env.example .env
-```
-
-Update `backend/.env`, then run:
-
-```powershell
+2. Setup Backend
+```bash
 cd backend
 npm install
-npm start
 ```
 
-Frontend:
+Create `.env` file in backend folder:
+```
+MONGO_URI=your_mongodb_connection_string
+PORT=4000
+JWT_SECRET=your_secret_key
+CLOUDINARY_CLOUD_NAME=your_cloudinary_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
+```
 
-```powershell
-cd frontend
+3. Setup Frontend
+```bash
+cd ../frontend
 npm install
+```
+
+### Running the Application
+
+**Start Backend:**
+```bash
+cd backend
 npm start
 ```
+Server runs on http://localhost:4000/graphql
 
-Then open:
-
-- Frontend: `http://localhost:4200/login`
-- Backend GraphQL: `http://localhost:4000/graphql`
-
-## Features Implemented
-
-- Angular routing for login, signup, employee list, employee details, and employee form
-- Reactive forms with validation
-- Session token storage through Angular services
-- Route protection for authenticated pages
-- GraphQL login, signup, employee CRUD, and search integration
-- Employee search by department or position
-- Responsive UI for desktop and mobile
-- Logout and redirect flow
-
-## Screenshots
-
-### Login
-
-![Login screen](docs/screenshots/login.png)
-
-### Signup
-
-![Signup screen](docs/screenshots/signup.png)
-
-### Employee List
-
-![Employee list screen](docs/screenshots/employee-list.png)
-
-### Add Employee
-
-![Add employee screen](docs/screenshots/add-employee.png)
-
-### Employee Details
-
-![Employee details screen](docs/screenshots/employee-details.png)
-
-### Update Employee
-
-![Update employee screen](docs/screenshots/update-employee.png)
-
-### Search Results
-
-![Search results screen](docs/screenshots/search-results.png)
-
-## Notes
-
-- The frontend has been aligned to the backend GraphQL schema from Assignment I.
-- Employee search is case-insensitive in the backend.
-- Docker uses the backend environment file in `backend/.env`.
-- `backend/.env.example` is a template only and should be copied to `backend/.env` before running the project.
-- The frontend Docker setup serves the built Angular SSR app on port `4200`.
-
-## Build Check
-
-Frontend build:
-
-```powershell
+**Start Frontend:**
+```bash
 cd frontend
-npm run build
+npm start
 ```
+Application runs on http://localhost:4200
+
+## Features
+
+- User registration and login with JWT
+- View all employees in card grid layout
+- Search/filter by department and position
+- Add new employees with profile pictures
+- Update employee information
+- Delete employees
+- View detailed employee profiles
+- Protected routes with auth guards
+- Responsive design
+
+## Application Structure
+
+```
+├── backend/
+│   ├── config/          # Database configuration
+│   ├── models/          # MongoDB schemas
+│   ├── graphql/         # GraphQL resolvers & typedefs
+│   └── utils/           # Helper functions
+└── frontend/
+    └── src/
+        ├── app/
+        │   ├── core/           # Services, guards, models
+        │   ├── features/       # Feature modules
+        │   └── shared/         # Shared components
+        └── styles.css
+```
+
+## Default Credentials
+
+For testing purposes:
+- Email: admin@test.com
+- Password: admin123
+
+## License
+
+This project is for educational purposes as part of COMP 3133 coursework.
