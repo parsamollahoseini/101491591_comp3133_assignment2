@@ -1,0 +1,66 @@
+<div class="detail-page">
+  <div class="detail-header">
+    <a class="back-link" routerLink="/employees">← Back to Employees</a>
+    @if (employee()) {
+      <a class="edit-btn" [routerLink]="['/employees', employee()!.id, 'edit']">Edit</a>
+    }
+  </div>
+
+  @if (isLoading()) {
+    <p class="loading-msg">Loading employee details...</p>
+  } @else if (errorMessage()) {
+    <div class="error-msg">{{ errorMessage() }}</div>
+  } @else if (employee(); as selectedEmployee) {
+    <div class="detail-container">
+      <aside class="profile-sidebar">
+        @if (selectedEmployee.profilePicture) {
+          <img class="profile-img" [src]="selectedEmployee.profilePicture" [alt]="selectedEmployee.firstName + ' ' + selectedEmployee.lastName" />
+        } @else {
+          <div class="profile-img profile-placeholder">{{ selectedEmployee.firstName[0] }}{{ selectedEmployee.lastName[0] }}</div>
+        }
+
+        <h2 class="employee-name">{{ selectedEmployee.firstName }} {{ selectedEmployee.lastName }}</h2>
+        <p class="employee-title">{{ selectedEmployee | employeeRole }}</p>
+
+        <div class="quick-info">
+          <div class="info-row">
+            <span class="info-label">Department</span>
+            <span class="info-value">{{ selectedEmployee.department }}</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Gender</span>
+            <span class="info-value">{{ selectedEmployee.gender }}</span>
+          </div>
+        </div>
+      </aside>
+
+      <main class="detail-content">
+        <section class="info-section">
+          <h3>Contact Information</h3>
+          <div class="info-item">
+            <label>Email Address</label>
+            <p>{{ selectedEmployee.email }}</p>
+          </div>
+        </section>
+
+        <section class="info-section">
+          <h3>Employment Details</h3>
+          <div class="info-grid">
+            <div class="info-item">
+              <label>Position</label>
+              <p>{{ selectedEmployee.position }}</p>
+            </div>
+            <div class="info-item">
+              <label>Salary</label>
+              <p>{{ selectedEmployee.salary | currency:'CAD':'symbol':'1.0-0' }}</p>
+            </div>
+            <div class="info-item">
+              <label>Date of Joining</label>
+              <p>{{ selectedEmployee.dateOfJoining | date:'fullDate' }}</p>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  }
+</div>

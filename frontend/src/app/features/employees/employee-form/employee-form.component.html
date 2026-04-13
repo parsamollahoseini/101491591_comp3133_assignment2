@@ -1,0 +1,90 @@
+<div class="form-page">
+  <div class="form-header">
+    <div>
+      <h1>{{ isEditMode ? 'Edit Employee' : 'Add New Employee' }}</h1>
+      <p class="page-subtitle">{{ isEditMode ? 'Update employee information' : 'Fill in the employee details below' }}</p>
+    </div>
+    <a class="cancel-link" routerLink="/employees">Cancel</a>
+  </div>
+
+  @if (isLoading()) {
+    <p class="loading-msg">Loading...</p>
+  } @else {
+    <div class="form-wrapper">
+      <form class="employee-form" [formGroup]="employeeForm" (ngSubmit)="submit()">
+        @if (errorMessage()) {
+          <div class="form-error">{{ errorMessage() }}</div>
+        }
+
+        <div class="form-row">
+          <div class="form-field">
+            <label>First Name</label>
+            <input type="text" formControlName="firstName" placeholder="Enter first name" />
+          </div>
+
+          <div class="form-field">
+            <label>Last Name</label>
+            <input type="text" formControlName="lastName" placeholder="Enter last name" />
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label>Email Address</label>
+          <input type="email" formControlName="email" placeholder="employee@company.com" />
+        </div>
+
+        <div class="form-row">
+          <div class="form-field">
+            <label>Department</label>
+            <input type="text" formControlName="department" placeholder="e.g. Engineering" />
+          </div>
+
+          <div class="form-field">
+            <label>Position</label>
+            <input type="text" formControlName="position" placeholder="e.g. Software Developer" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-field">
+            <label>Gender</label>
+            <select formControlName="gender">
+              <option value="">Select gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label>Salary (CAD)</label>
+            <input type="number" min="1000" formControlName="salary" placeholder="50000" />
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label>Date of Joining</label>
+          <input type="date" formControlName="dateOfJoining" />
+        </div>
+
+        <div class="form-field">
+          <label>Profile Picture</label>
+          <input type="file" accept="image/*" (change)="onFileSelected($event)" class="file-input" />
+        </div>
+
+        @if (imagePreview()) {
+          <div class="image-preview">
+            <p class="preview-label">Preview:</p>
+            <img [src]="imagePreview()!" alt="Profile preview" />
+          </div>
+        }
+
+        <div class="form-actions">
+          <button class="btn-submit" type="submit" [disabled]="isSubmitting()">
+            {{ isSubmitting() ? 'Saving...' : (isEditMode ? 'Update Employee' : 'Create Employee') }}
+          </button>
+        </div>
+      </form>
+    </div>
+  }
+</div>

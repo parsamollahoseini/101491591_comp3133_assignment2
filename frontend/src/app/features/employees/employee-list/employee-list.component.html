@@ -1,0 +1,75 @@
+<div class="employees-page">
+  <header class="page-header">
+    <div>
+      <h1>Employees</h1>
+      <p class="subtitle">{{ employeeCountLabel() }}</p>
+    </div>
+    <button class="btn-add" type="button" (click)="openCreatePage()">
+      <span>+</span> New Employee
+    </button>
+  </header>
+
+  <div class="search-bar">
+    <form [formGroup]="filtersForm" (ngSubmit)="loadEmployees()">
+      <div class="search-inputs">
+        <input type="text" formControlName="department" placeholder="Filter by department..." />
+        <input type="text" formControlName="position" placeholder="Filter by position..." />
+        <button class="btn-search" type="submit">Search</button>
+        <button class="btn-reset" type="button" (click)="clearFilters()">Clear</button>
+      </div>
+    </form>
+  </div>
+
+  @if (errorMessage()) {
+    <div class="alert-error">{{ errorMessage() }}</div>
+  }
+
+  @if (isLoading()) {
+    <p class="loading-message">Loading employees...</p>
+  } @else if (!employees().length) {
+    <p class="empty-message">No employees found.</p>
+  } @else {
+    <div class="employee-grid">
+      @for (employee of employees(); track trackByEmployeeId($index, employee)) {
+        <div class="employee-card">
+          <div class="card-header">
+            @if (employee.profilePicture) {
+              <img class="avatar" [src]="employee.profilePicture" [alt]="employee.firstName + ' ' + employee.lastName" />
+            } @else {
+              <div class="avatar avatar-initials">{{ employee.firstName[0] }}{{ employee.lastName[0] }}</div>
+            }
+            <div class="employee-info">
+              <h3>{{ employee.firstName }} {{ employee.lastName }}</h3>
+              <p class="role">{{ employee | employeeRole }}</p>
+            </div>
+          </div>
+
+          <div class="card-details">
+            <div class="detail-item">
+              <span class="label">Department</span>
+              <span class="value">{{ employee.department }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="label">Email</span>
+              <span class="value">{{ employee.email }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="label">Salary</span>
+              <span class="value">{{ employee.salary | currency:'CAD':'symbol':'1.0-0' }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="label">Joined</span>
+              <span class="value">{{ employee.dateOfJoining | date:'mediumDate' }}</span>
+            </div>
+          </div>
+
+          <div class="card-actions">
+            <a class="btn-view" [routerLink]="['/employees', employee.id]">View</a>
+            <a class="btn-edit" [routerLink]="['/employees', employee.id, 'edit']">Edit</a>
+            <button class="btn-delete" type="button" (click)="deleteEmployee(employee)">Delete</button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>
